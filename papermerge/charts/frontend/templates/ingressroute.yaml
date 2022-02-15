@@ -1,0 +1,20 @@
+{{- if .Values.ingress.enabled -}}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: "frontend"
+  annotations:
+    {{- include "frontend.labels" . | nindent 4}}
+    {{- .Values.ingress.labels | toYaml | nindent 4 }}
+
+spec:
+  routes:
+    {{- range .Values.ingress.hosts }}
+    - kind: Rule
+      match: Host(`{{ . }}`)
+      services:
+      - name: "frontend"
+        port: 80
+    {{- end}}
+{{- end}}

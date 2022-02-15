@@ -1,0 +1,15 @@
+
+worker:
+  replicaCount: 2
+
+frontend:
+  ingress:
+    enabled: true
+
+backend:
+  ingress:
+    enabled: true
+
+apidocs:
+  ingress:
+    enabled: true
