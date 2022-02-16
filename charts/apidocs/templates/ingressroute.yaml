@@ -1,20 +1,16 @@
 {{- if .Values.ingress.enabled -}}
----
+
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: "apidocs"
   annotations:
-    {{- include "apidocs.labels" . | nindent 4}}
-    {{- .Values.ingress.labels | toYaml | nindent 4 }}
-
+    {}
 spec:
   routes:
-    {{- range .Values.ingress.hosts }}
-    - kind: Rule
-      match: Host(`{{ . }}`) && PathPrefix(`/apidocs`)
-      services:
-      - name: "apidocs"
-        port: 80
-    {{- end}}
+  - kind: Rule
+    match: Host(`{{ .Values.ingress.host }}`) && PathPrefix(`/api`)
+    services:
+    - name: "apidocs"
+      port: 80
 {{- end}}

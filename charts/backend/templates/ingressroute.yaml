@@ -5,16 +5,13 @@ kind: IngressRoute
 metadata:
   name: "backend"
   annotations:
-    {{- include "backend.labels" . | nindent 4}}
-    {{- .Values.ingress.labels | toYaml | nindent 4 }}
+    {}
 
 spec:
   routes:
-    {{- range .Values.ingress.hosts }}
-    - kind: Rule
-      match: Host(`{{ . }}`) && PathPrefix(`/api`)
-      services:
-      - name: "backend"
-        port: 80
-    {{- end}}
+  - kind: Rule
+    match: Host(`{{ .Values.ingress.host }}`)
+    services:
+    - name: "backend"
+      port: 80
 {{- end}}
