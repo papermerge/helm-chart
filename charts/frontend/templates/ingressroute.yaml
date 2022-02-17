@@ -2,14 +2,12 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: "frontend"
-  annotations:
-    {}
+  name: {{ include "frontend.fullname" . }}
 spec:
   routes:
   - kind: Rule
-    match: Host(`{{ .Values.ingress.host }}`) && PathPrefix(`/api`)
+    match: Host(`{{ .Values.ingress.host }}`)
     services:
-    - name: "frontend"
-      port: 80
+    - name: {{ include "frontend.fullname" . }}
+      port: {{ .Values.service.port }}
 {{- end}}

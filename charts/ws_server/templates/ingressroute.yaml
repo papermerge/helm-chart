@@ -1,15 +1,14 @@
 {{- if .Values.ingress.enabled -}}
----
+
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: {{ include "backend.fullname" . }}
-
+  name: {{ include "wsserver.fullname" . }}
 spec:
   routes:
   - kind: Rule
-    match: Host(`{{ .Values.ingress.host }}`) && PathPrefix(`/api`)
+    match: Host(`{{ .Values.ingress.host }}`) && PathPrefix(`/ws`)
     services:
-    - name: {{ include "backend.fullname" . }}
+    - name: {{ include "wsserver.fullname" . }}
       port: {{ .Values.service.port }}
 {{- end}}

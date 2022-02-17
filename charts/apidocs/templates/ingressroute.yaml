@@ -3,14 +3,12 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: "apidocs"
-  annotations:
-    {}
+  name: {{ include "apidocs.fullname" . }}
 spec:
   routes:
   - kind: Rule
-    match: Host(`{{ .Values.ingress.host }}`) && PathPrefix(`/api`)
+    match: Host(`{{ .Values.ingress.host }}`) && PathPrefix(`/apidocs`)
     services:
-    - name: "apidocs"
-      port: 80
+    - name: {{ include "apidocs.fullname" . }}
+      port: {{ .Values.service.port }}
 {{- end}}

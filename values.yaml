@@ -13,3 +13,7 @@ backend:
 apidocs:
   ingress:
     enabled: true
+
+wsserver:
+  ingress:
+    enabled: true
