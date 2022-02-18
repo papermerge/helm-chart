@@ -4,3 +4,9 @@ metadata:
   name: {{ include "backend.fullname" . }}
 data:
   DJANGO_SETTINGS_MODULE: {{ .Values.conf.django_settings_module }}
+  DJANGO_SUPERUSER_USERNAME: {{ .Values.conf.superuser_username }}
+  DJANGO_SUPERUSER_EMAIL: {{ .Values.conf.superuser_email }}
+  PAPERMERGE_DATABASE_TYPE: {{ .Values.conf.db_type }}
+  PAPERMERGE_DATABASE_USER: {{ .Values.conf.db_user }}
+  PAPERMERGE_DATABASE_NAME: {{ .Values.conf.db_name }}
+  PAPERMERGE_DATABASE_HOST: {{ .Values.conf.db_host }}
