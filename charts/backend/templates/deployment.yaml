@@ -30,7 +30,7 @@ spec:
       initContainers:
         - name: {{ include "backend.fullname" . }}-init
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          command: ["/run.bash", "init"]
+          command: ["/run.bash", "server_init"]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           envFrom:
             - configMapRef:
