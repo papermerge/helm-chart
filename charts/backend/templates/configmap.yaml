@@ -10,3 +10,5 @@ data:
   PAPERMERGE_DATABASE_USER: {{ .Values.conf.db_user }}
   PAPERMERGE_DATABASE_NAME: {{ .Values.conf.db_name }}
   PAPERMERGE_DATABASE_HOST: {{ .Values.conf.db_host }}
+  PAPERMERGE_ELASTICSEARCH_HOSTS: {{ .Values.conf.es_hosts }}
+  PAPERMERGE_ELASTICSEARCH_PORT: {{ .Values.conf.es_port }}
