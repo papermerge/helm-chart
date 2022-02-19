@@ -10,6 +10,7 @@ data:
   PAPERMERGE_DATABASE_USER: {{ .Values.global.conf.db.user | quote }}
   PAPERMERGE_DATABASE_NAME: {{ .Values.global.conf.db.name | quote }}
   PAPERMERGE_DATABASE_HOST: {{ .Values.global.conf.db.host | quote }}
+  PAPERMERGE_REDIS_HOST: {{ .Values.global.conf.redis.host | quote }}
 {{- if .Values.global.conf.es.enabled -}}
   PAPERMERGE_ELASTICSEARCH_HOSTS: {{ .Values.global.conf.es.hosts | quote }}
   PAPERMERGE_ELASTICSEARCH_PORT: {{ .Values.global.conf.es.port | quote }}
