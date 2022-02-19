@@ -1,4 +1,4 @@
-{{- if .Values.ingress.enabled -}}
+{{- if .Values.global.conf.ingress.enabled -}}
 
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
@@ -7,7 +7,7 @@ metadata:
 spec:
   routes:
   - kind: Rule
-    match: Host(`{{ .Values.ingress.host }}`) && PathPrefix(`/ws`)
+    match: Host(`{{ .Values.global.conf.ingress.host }}`) && PathPrefix(`/ws`)
     services:
     - name: {{ include "wsserver.fullname" . }}
       port: {{ .Values.service.port }}

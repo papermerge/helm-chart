@@ -14,9 +14,6 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
-conf:
-  django_settings_module: config.settings
-
 serviceAccount:
   # Specifies whether a service account should be created
   create: true

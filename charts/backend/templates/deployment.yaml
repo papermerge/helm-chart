@@ -34,9 +34,9 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           envFrom:
             - configMapRef:
-                name: {{ include "backend.fullname" . }}
+                name: {{ .Release.Name }}-config
             - secretRef:
-                name: {{ include "backend.fullname" . }}
+                name: {{ .Release.Name }}-secret
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -45,9 +45,9 @@ spec:
           command: ["/run.bash", "server"]
           envFrom:
             - configMapRef:
-                name: {{ include "backend.fullname" . }}
+                name: {{ .Release.Name }}-config
             - secretRef:
-                name: {{ include "backend.fullname" . }}
+                name: {{ .Release.Name }}-secret
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http

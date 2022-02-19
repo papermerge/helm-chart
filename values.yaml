@@ -1,19 +1,19 @@
-
 worker:
   replicaCount: 2
 
-frontend:
-  ingress:
-    enabled: true
-
-backend:
-  ingress:
-    enabled: true
-
-apidocs:
-  ingress:
-    enabled: true
-
-wsserver:
-  ingress:
-    enabled: true
+global:
+  conf:
+    app:
+      django_settings_module: config.settings
+      superuser:
+        username: "admin"
+        email: "admin@example.com"
+    ingress:
+      enabled: true
+      host: papermerge.minikube
+    db:
+      type: "postgres"
+      user: "postgres"
+      name: "postgres"
+    es:
+      enabled: false
