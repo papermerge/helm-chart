@@ -45,7 +45,7 @@ spec:
           command: ["/run.bash", "server"]
           volumeMounts:
             - name: {{ .Release.Name }}-volume
-              mountPath: "/data/media"
+              mountPath: {{ .Values.global.conf.app.media_dir }}
           envFrom:
             - configMapRef:
                 name: {{ .Release.Name }}-config

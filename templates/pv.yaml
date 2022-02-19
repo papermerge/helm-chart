@@ -8,4 +8,4 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: /data/media/
+    path: {{ .Values.global.conf.app.media_dir }}

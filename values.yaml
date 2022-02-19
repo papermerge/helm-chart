@@ -1,5 +1,5 @@
 worker:
-  replicaCount: 2
+  replicaCount: 1
 
 global:
   conf:
@@ -8,6 +8,7 @@ global:
       superuser:
         username: "admin"
         email: "admin@example.com"
+      media_dir: "/data/media"
     ingress:
       enabled: true
       host: papermerge.minikube
