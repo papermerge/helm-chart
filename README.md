@@ -7,7 +7,7 @@ This is helm chart for Papermerge deployment in Kubernetes cluster.
 
 In order to install papermerge use following command:
 
-  helm install papermerge . -f .values.yaml
+    helm install papermerge . -f .values.yaml
 
 Example of .values.yaml:
 
