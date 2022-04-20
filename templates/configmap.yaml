@@ -12,7 +12,7 @@ data:
   PAPERMERGE_DATABASE_HOST: {{ .Values.global.conf.db.host | quote }}
   PAPERMERGE_REDIS_HOST: {{ .Values.global.conf.redis.host | quote }}
   PAPERMERGE_MEDIA_DIR: {{ .Values.global.conf.app.media_dir }}
-{{- if .Values.global.conf.es.enabled -}}
+{{- if .Values.global.conf.es.enabled }}
   PAPERMERGE_ELASTICSEARCH_HOSTS: {{ .Values.global.conf.es.hosts | quote }}
   PAPERMERGE_ELASTICSEARCH_PORT: {{ .Values.global.conf.es.port | quote }}
 {{- end}}
