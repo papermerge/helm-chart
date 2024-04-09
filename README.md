@@ -1,4 +1,4 @@
-# Helm Chart for Papermerge
+# Helm Chart for Papermerge 3
 
 This is helm chart for Papermerge deployment in Kubernetes cluster.
 
