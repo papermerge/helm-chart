@@ -30,7 +30,7 @@ spec:
       initContainers:
         - name: {{ include "backend.fullname" . }}-init
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          command: ["/run.bash", "server_init"]
+          command: ["/run.bash", "init"]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           envFrom:
             - configMapRef:
@@ -43,9 +43,11 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           command: ["/run.bash", "server"]
+          {{- if .Values.global.conf.storage.enabled }}
           volumeMounts:
             - name: {{ .Release.Name }}-volume
               mountPath: {{ .Values.global.conf.app.media_dir }}
+          {{- end }}
           envFrom:
             - configMapRef:
                 name: {{ .Release.Name }}-config
@@ -54,15 +56,15 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: 8090
+              containerPort: 80
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /api/
+              path: /
               port: http
           readinessProbe:
             httpGet:
-              path: /api/
+              path: /
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
@@ -78,7 +80,9 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- if .Values.global.conf.storage.enabled }}
       volumes:
         - name: {{ .Release.Name }}-volume
           persistentVolumeClaim:
             claimName: {{ .Release.Name }}-pvc
+      {{- end }}
