@@ -9,5 +9,8 @@ global:
     redis:
       url: "redis://redis:6379/0"
     ingress:
-      enabled: true
+      enabled: false
       host: papermerge.minikube
+    storage:
+      enabled: false
+

@@ -43,9 +43,11 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           command: ["/run.bash", "server"]
+          {{- if .Values.global.conf.storage.enabled }}
           volumeMounts:
             - name: {{ .Release.Name }}-volume
               mountPath: {{ .Values.global.conf.app.media_dir }}
+          {{- end }}
           envFrom:
             - configMapRef:
                 name: {{ .Release.Name }}-config
@@ -78,7 +80,9 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- if .Values.global.conf.storage.enabled }}
       volumes:
         - name: {{ .Release.Name }}-volume
           persistentVolumeClaim:
             claimName: {{ .Release.Name }}-pvc
+      {{- end }}
