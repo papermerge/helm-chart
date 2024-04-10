@@ -3,16 +3,6 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-config
 data:
-  DJANGO_SETTINGS_MODULE: {{ .Values.global.conf.app.django_settings_module | quote }}
-  DJANGO_SUPERUSER_USERNAME: {{ .Values.global.conf.app.superuser.username | quote  }}
-  DJANGO_SUPERUSER_EMAIL: {{ .Values.global.conf.app.superuser.email | quote }}
-  PAPERMERGE_DATABASE_TYPE: {{ .Values.global.conf.db.type | quote }}
-  PAPERMERGE_DATABASE_USER: {{ .Values.global.conf.db.user | quote }}
-  PAPERMERGE_DATABASE_NAME: {{ .Values.global.conf.db.name | quote }}
-  PAPERMERGE_DATABASE_HOST: {{ .Values.global.conf.db.host | quote }}
-  PAPERMERGE_REDIS_HOST: {{ .Values.global.conf.redis.host | quote }}
-  PAPERMERGE_MEDIA_DIR: {{ .Values.global.conf.app.media_dir }}
-{{- if .Values.global.conf.es.enabled }}
-  PAPERMERGE_ELASTICSEARCH_HOSTS: {{ .Values.global.conf.es.hosts | quote }}
-  PAPERMERGE_ELASTICSEARCH_PORT: {{ .Values.global.conf.es.port | quote }}
-{{- end}}
+  PAPERMERGE__AUTH__USERNAME: {{ .Values.global.conf.app.auth__username | quote  }}
+  PAPERMERGE__AUTH__EMAIL: {{ .Values.global.conf.app.auth__email | quote }}
+  PAPERMERGE__REDIS__URL: {{ .Values.global.conf.redis.url | quote }}

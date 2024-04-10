@@ -22,3 +22,7 @@
 *.tmproj
 .vscode/
 .values.yaml
+secrets.yml
+.secrets.yml
+secrets.yaml
+.secrets.yaml

@@ -1,6 +1,6 @@
 {{- if .Values.global.conf.ingress.enabled -}}
 ---
-apiVersion: traefik.containo.us/v1alpha1
+apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: {{ include "backend.fullname" . }}

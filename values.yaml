@@ -4,17 +4,10 @@ worker:
 global:
   conf:
     app:
-      django_settings_module: config.settings
-      superuser:
-        username: "admin"
-        email: "admin@example.com"
-      media_dir: "/data/media"
+      auth__username: "admin"
+      auth__email: "admin@example.com"
+    redis:
+      url: "redis://redis:6379/0"
     ingress:
       enabled: true
       host: papermerge.minikube
-    db:
-      type: "postgres"
-      user: "postgres"
-      name: "postgres"
-    es:
-      enabled: false
