@@ -1,14 +1,15 @@
 # Helm Chart for Papermerge 3
 
-This is helm chart for Papermerge deployment in Kubernetes cluster.
+Official Papermerge helm chart.
+It is compatible with following versions of Papermerge:
 
+- 3.2
 
 ## Install
 
 In order to install papermerge use following command:
 
     helm install papermerge . -f .values.yaml -f secrets.yaml
-
 
 You need to provider one values.yml file and one secrets.yml.
 
