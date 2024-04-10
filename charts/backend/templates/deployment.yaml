@@ -30,7 +30,7 @@ spec:
       initContainers:
         - name: {{ include "backend.fullname" . }}-init
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          command: ["/run.bash", "server_init"]
+          command: ["/run.bash", "init"]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           envFrom:
             - configMapRef:
@@ -56,15 +56,15 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: 8090
+              containerPort: 80
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /api/
+              path: /
               port: http
           readinessProbe:
             httpGet:
-              path: /api/
+              path: /
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
