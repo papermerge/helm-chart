@@ -4,12 +4,15 @@ apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: {{ include "app.fullname" . }}
-
+  annotations:
+    kubernetes.io/ingress.class: traefik-external
 spec:
   routes:
   - kind: Rule
-    match: Host(`{{ .Values.global.conf.ingress.host }}`) && (PathPrefix(`/api/`) || PathPrefix(`/static/`) || PathPrefix(`/auth/`))
+    match: Host(`{{ .Values.global.conf.ingress.host }}`)
     services:
     - name: {{ include "app.fullname" . }}
-      port: {{ .Values.service.port }}
-{{- end}}
+      port: 80
+  tls:
+    secretName: {{ .Values.global.conf.ingress.cert.secretName }}
+{{- end }}
