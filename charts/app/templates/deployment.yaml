@@ -5,9 +5,7 @@ metadata:
   labels:
     {{- include "app.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-  {{- end }}
+  replicas: 3
   selector:
     matchLabels:
       {{- include "app.selectorLabels" . | nindent 6 }}
@@ -84,5 +82,5 @@ spec:
       volumes:
         - name: {{ .Release.Name }}-volume
           persistentVolumeClaim:
-            claimName: {{ .Release.Name }}-pvc
+            claimName: {{ .Release.Name }}-media-pvc
       {{- end }}
