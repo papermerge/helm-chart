@@ -9,7 +9,7 @@ data:
 
     formatters:
       verbose:
-        format: '%(levelname)s %(pathname)s %(filename)s %(lineno)d %(message)s'
+        format: '%(levelname)s:%(pathname)s:%(lineno)d:%(message)s'
 
     handlers:
       console:
