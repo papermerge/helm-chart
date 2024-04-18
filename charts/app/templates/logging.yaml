@@ -9,24 +9,24 @@ data:
 
     formatters:
       verbose:
-        format: '%(levelname)s %(asctime)s %(module)s %(message)s'
+        format: '%(levelname)s %(pathname)s %(filename)s %(lineno)d %(message)s'
 
     handlers:
       console:
-        level: INFO
+        level: DEBUG
         class: logging.StreamHandler
         formatter: verbose
       file:
-        level: INFO
+        level: DEBUG
         class: logging.FileHandler
         formatter: verbose
-        filename: "info.log"
+        filename: "/var/log/papermerge/info.log"
 
     loggers:
       auth_server:
-        level: INFO
+        level: DEBUG
         handlers: [console, file]
-      papermerge.search.tasks:
-        level: INFO
+      papermerge.core:
+        level: DEBUG
         handlers: [console, file]
         propagate: no
