@@ -5,7 +5,7 @@ metadata:
   labels:
     {{- include "app.labels" . | nindent 4 }}
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       {{- include "app.selectorLabels" . | nindent 6 }}
@@ -45,6 +45,11 @@ spec:
           volumeMounts:
             - name: {{ .Release.Name }}-volume
               mountPath: {{ .Values.global.conf.app.media_dir }}
+            - name: logs-vol
+              mountPath: /var/log/papermerge
+            - name: papermerge-logging-vol
+              mountPath: /etc/papermerge/logging.yaml
+              subPath: logging.yaml
           {{- end }}
           envFrom:
             - configMapRef:
@@ -66,6 +71,15 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+        - name: promtail-container
+          image: grafana/promtail:2.9.2
+          args:
+           - -config.file=/etc/promtail/promtail.yaml
+          volumeMounts:
+            - name: logs-vol
+              mountPath: /var/log/papermerge
+            - name: promtail-config-vol
+              mountPath: /etc/promtail
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -83,4 +97,12 @@ spec:
         - name: {{ .Release.Name }}-volume
           persistentVolumeClaim:
             claimName: {{ .Release.Name }}-media-pvc
+        - name: logs-vol
+          emptyDir: {}
+        - name: promtail-config-vol
+          configMap:
+            name: promtail-config
+        - name: papermerge-logging-vol
+          configMap:
+            name: logging-config
       {{- end }}

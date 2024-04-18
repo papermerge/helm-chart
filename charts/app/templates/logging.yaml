@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: logging-config
+data:
+  logging.yaml: |
+    version: 1
+    disable_existing_loggers: false
+
+    formatters:
+      verbose:
+        format: '%(levelname)s %(asctime)s %(module)s %(message)s'
+
+    handlers:
+      console:
+        level: INFO
+        class: logging.StreamHandler
+        formatter: verbose
+      file:
+        level: INFO
+        class: logging.FileHandler
+        formatter: verbose
+        filename: "info.log"
+
+    loggers:
+      auth_server:
+        level: INFO
+        handlers: [console, file]
+      papermerge.search.tasks:
+        level: INFO
+        handlers: [console, file]
+        propagate: no
