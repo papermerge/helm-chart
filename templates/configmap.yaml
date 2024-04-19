@@ -3,6 +3,10 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-config
 data:
-  PAPERMERGE__AUTH__USERNAME: {{ .Values.global.conf.app.auth__username | quote  }}
-  PAPERMERGE__AUTH__EMAIL: {{ .Values.global.conf.app.auth__email | quote }}
-  PAPERMERGE__REDIS__URL: {{ .Values.global.conf.redis.url | quote }}
+  PAPERMERGE__AUTH__USERNAME: {{ .Values.global.app.auth__username | quote  }}
+  PAPERMERGE__AUTH__EMAIL: {{ .Values.global.app.auth__email | quote }}
+  PAPERMERGE__MAIN__MEDIA_ROOT: {{ .Values.global.app.main__media_root | quote }}
+  PAPERMERGE__MAIN__LOGGING_CFG: {{ .Values.global.app.main__logging_cfg | quote }}
+  {{- if .Values.global.redis.enabled }}
+  PAPERMERGE__REDIS__URL: {{ .Values.global.redis.url | quote }}
+  {{- end }}

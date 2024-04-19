@@ -41,10 +41,10 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           command: ["/run.bash", "server"]
-          {{- if .Values.global.conf.storage.enabled }}
+          {{- if .Values.global.storage.enabled }}
           volumeMounts:
             - name: {{ .Release.Name }}-volume
-              mountPath: {{ .Values.global.conf.app.media_dir }}
+              mountPath: {{ .Values.global.app.media_dir }}
             - name: papermerge-logging-vol
               mountPath: /etc/papermerge/logging.yaml
               subPath: logging.yaml
@@ -83,7 +83,7 @@ spec:
       {{- end }}
 
       volumes:
-      {{- if .Values.global.conf.storage.enabled }}
+      {{- if .Values.conf.storage.enabled }}
         - name: {{ .Release.Name }}-volume
           persistentVolumeClaim:
             claimName: {{ .Release.Name }}-media-pvc
