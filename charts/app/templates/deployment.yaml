@@ -83,7 +83,7 @@ spec:
       {{- end }}
 
       volumes:
-      {{- if .Values.conf.storage.enabled }}
+      {{- if .Values.global.storage.enabled }}
         - name: {{ .Release.Name }}-volume
           persistentVolumeClaim:
             claimName: {{ .Release.Name }}-media-pvc
