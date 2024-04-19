@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: logging-config
+data:
+  logging.yaml: |
+    version: 1
+    disable_existing_loggers: false
+
+    formatters:
+      verbose:
+        format: '%(levelname)s:%(pathname)s:%(lineno)d:%(message)s'
+
+    handlers:
+      console:
+        level: DEBUG
+        class: logging.StreamHandler
+        formatter: verbose
+      file:
+        level: DEBUG
+        class: logging.FileHandler
+        formatter: verbose
+        filename: "/var/log/papermerge/info.log"
+
+    loggers:
+      auth_server:
+        level: DEBUG
+        handlers: [console, file]
+      papermerge.core:
+        level: DEBUG
+        handlers: [console, file]
+        propagate: no
