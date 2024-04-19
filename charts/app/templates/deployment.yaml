@@ -45,6 +45,9 @@ spec:
           volumeMounts:
             - name: {{ .Release.Name }}-volume
               mountPath: {{ .Values.global.conf.app.media_dir }}
+            - name: papermerge-logging-vol
+              mountPath: /etc/papermerge/logging.yaml
+              subPath: logging.yaml
           {{- end }}
           envFrom:
             - configMapRef:
@@ -78,9 +81,14 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- if .Values.global.conf.storage.enabled }}
+
       volumes:
+      {{- if .Values.global.conf.storage.enabled }}
         - name: {{ .Release.Name }}-volume
           persistentVolumeClaim:
             claimName: {{ .Release.Name }}-media-pvc
       {{- end }}
+        - name: papermerge-logging-vol
+          configMap:
+            name: logging-config
+
