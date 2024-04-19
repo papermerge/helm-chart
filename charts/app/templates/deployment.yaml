@@ -44,7 +44,7 @@ spec:
           {{- if .Values.global.storage.enabled }}
           volumeMounts:
             - name: {{ .Release.Name }}-volume
-              mountPath: {{ .Values.global.app.media_dir }}
+              mountPath: {{ .Values.global.app.main__media_root }}
             - name: papermerge-logging-vol
               mountPath: /etc/papermerge/logging.yaml
               subPath: logging.yaml
