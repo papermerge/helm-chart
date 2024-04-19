@@ -16,17 +16,12 @@ data:
         level: DEBUG
         class: logging.StreamHandler
         formatter: verbose
-      file:
-        level: DEBUG
-        class: logging.FileHandler
-        formatter: verbose
-        filename: "/var/log/papermerge/info.log"
 
     loggers:
       auth_server:
         level: DEBUG
-        handlers: [console, file]
+        handlers: [console]
       papermerge.core:
         level: DEBUG
-        handlers: [console, file]
+        handlers: [console]
         propagate: no
