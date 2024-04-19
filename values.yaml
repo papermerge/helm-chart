@@ -2,21 +2,21 @@ worker:
   replicaCount: 3
 
 global:
-  conf:
-    app:
-      auth__username: "admin"
-      auth__email: "admin@example.com"
-      media_dir: /core_app/media
-    redis:
-      url: "redis://redis:6379/0"
-    ingress:
-      enabled: true
-      host: paper.k8s.trusel.net
-      cert:
-        secretName: k8s-trusel-net-production-tls
-    storage:
-      enabled: true
-
+  app:
+    auth__username: "admin"
+    auth__email: "admin@example.com"
+    main__media_root: "/media"
+    main__logging_cfg: "/etc/papermerge/logging.yaml"
+  ingress:
+    enabled: true
+    host: paper.k8s.trusel.net
+    cert:
+      secretName: k8s-trusel-net-production-tls
+  storage:
+    enabled: true
+  redis:
+    enabled: false
+    url: "redis://redis:6379/0"
 
 autoscaling:
   enabled: false
