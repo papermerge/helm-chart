@@ -68,6 +68,11 @@ spec:
         - name: {{ .Release.Name }}-logging-vol
           configMap:
             name: {{ .Release.Name }}-logging-config
+      {{- if .Values.global.storage.enabled }}
+        - name: {{ .Release.Name }}-volume
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-media-pvc
+      {{- end }}
       {{- with .Values.volumes }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
