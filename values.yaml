@@ -21,6 +21,10 @@ global:
   redis:
     enabled: false
     url: "redis://redis:6379/0"
+  search:
+    enabled: false
+    url: "solr://solr-solrcloud-0:8983/paper-index"
+
 
 autoscaling:
   enabled: false

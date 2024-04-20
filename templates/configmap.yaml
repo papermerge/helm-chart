@@ -10,3 +10,6 @@ data:
   {{- if .Values.global.redis.enabled }}
   PAPERMERGE__REDIS__URL: {{ .Values.global.redis.url | quote }}
   {{- end }}
+  {{- if .Values.global.search.enabled }}
+  PAPERMERGE__SEARCH__URL: {{ .Values.global.search.url | quote }}
+  {{- end }}
