@@ -66,6 +66,9 @@ spec:
           {{- end }}
       {{- with .Values.volumes }}
       volumes:
+        - name: {{ .Release.Name }}-logging-vol
+          configMap:
+            name: {{ .Release.Name }}-logging-config
         {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.nodeSelector }}
