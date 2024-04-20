@@ -1,6 +1,10 @@
 worker:
   replicaCount: 2
 
+
+app:
+  replicaCount: 2
+
 global:
   app:
     auth__username: "admin"
