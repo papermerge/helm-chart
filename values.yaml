@@ -29,6 +29,11 @@ app:
         level: DEBUG
         handlers: [console]
         propagate: no
+      papermerge.search:
+        level: DEBUG
+        handlers: [console]
+        propagate: no
+        format: verbose
 
 
 global:
