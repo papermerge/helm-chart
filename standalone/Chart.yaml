@@ -1,6 +1,6 @@
 apiVersion: v2
 name: papermerge
-description: Papermerge helm chart for Kubernetes
+description: Papermerge helm chart for Kubernetes / standalone architecture
 type: application
 version: 0.3.0
 appVersion: "3.3.0build1"

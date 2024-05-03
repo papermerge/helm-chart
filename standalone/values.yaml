@@ -21,6 +21,10 @@ app:
         class: logging.StreamHandler
         formatter: verbose
 
+    root:
+      level: DEBUG
+      handlers: [console]
+
     loggers:
       auth_server:
         level: DEBUG
@@ -34,7 +38,6 @@ app:
         handlers: [console]
         propagate: no
         format: verbose
-
 
 global:
   app:
