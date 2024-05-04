@@ -51,7 +51,7 @@ spec:
             - name: {{ .Release.Name }}-logging-vol
               mountPath: /etc/papermerge/logging.yaml
               subPath: logging.yaml
-          - name: {{ .Release.Name }}-public-key
+            - name: {{ .Release.Name }}-public-key
               mountPath: /etc/papermerge/public.key
               subPath: public.key
           envFrom:
