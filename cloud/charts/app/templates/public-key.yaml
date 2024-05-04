@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-public-key
+data:
+  public.key: |
+    {{- with .Values.publicKey }}
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
