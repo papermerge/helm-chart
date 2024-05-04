@@ -1,0 +1,18 @@
+{{- if .Values.global.ingress.enabled -}}
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ include "app.fullname" . }}
+  annotations:
+    kubernetes.io/ingress.class: traefik-external
+spec:
+  routes:
+  - kind: Rule
+    match: Host(`{{ .Values.global.ingress.host }}`)
+    services:
+    - name: {{ include "app.fullname" . }}
+      port: 80
+  tls:
+    secretName: {{ .Values.global.ingress.cert.secretName }}
+{{- end }}
