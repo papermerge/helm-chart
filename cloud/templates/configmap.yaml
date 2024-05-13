@@ -8,13 +8,11 @@ data:
   PAPERMERGE__AUTH__OIDC_ACCESS_TOKEN_URL: {{ .Values.global.app.auth__oidc_access_token_url | quote }}
   PAPERMERGE__AUTH__OIDC_LOGOUT_URL: {{ .Values.global.app.auth__logout_url | quote }}
   PAPERMERGE__AUTH__OIDC_REDIRECT_URL: {{ .Values.global.app.auth__oidc_redirect_url | quote }}
-  PUBLIC_KEY: {{ .Values.global.app.public_key | quote }}
+  PUBLIC_KEY: {{ .Values.app.public_key_path | quote }}
   HOME_URL: {{ .Values.global.app.home_url | quote }}
   PAPERMERGE__MAIN__MEDIA_ROOT: {{ .Values.global.app.main__media_root | quote }}
   PAPERMERGE__MAIN__LOGGING_CFG: {{ .Values.global.app.main__logging_cfg | quote }}
-  {{- if .Values.global.redis.enabled }}
-  PAPERMERGE__REDIS__URL: {{ .Values.global.redis.url | quote }}
-  {{- end }}
+  PAPERMERGE__REDIS__URL: {{ .Values.global.app.redis__url | quote }}
   {{- if .Values.global.search.enabled }}
   PAPERMERGE__SEARCH__URL: {{ .Values.global.search.url | quote }}
   {{- end }}
