@@ -4,6 +4,4 @@ metadata:
   name: {{ .Release.Name }}-public-key
 data:
   public.key: |
-    {{- with .Values.publicKey }}
-      {{- toYaml . | nindent 6 }}
-    {{- end }}
+{{ .Values.publicKey | indent 4 }}

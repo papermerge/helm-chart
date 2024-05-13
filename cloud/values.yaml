@@ -40,8 +40,9 @@ app:
         format: verbose
   publicKey:
     -----BEGIN PUBLIC KEY-----
-      MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqyVi/6ph19l4pFcVqW+4C3pF+5fSza8lJ6xZK5WTZr3O2lzwarw+H9lEl2bF0Y40hcd0nFhEBtPckEhLonGe+ncnL1nuWIVQLijkWnbd737GFWA4VRy8zejXTIdJHV/3iK7pgq/TVxR5wPQ1+XJSGcoH1jV0FGbb5gJVxnc+8kFMyPQH9XfNkVIWAHvNHP8VGGwIo8OwXOioylfiV62Soo8IihN5FBl5TRXrdYtIiGexU2P8UpEvq/Yc5nPQFRvW1n+F5YLn4F+I8kHWwGAhJeJc3RmG9OzSi6rhAKFX5puAOyLRkvguL2wsMrA7KLeZMnrZZB5Vkk1gKxY/03VGBQIDAQAB
+    place public key here
     -----END PUBLIC KEY-----
+  public_key_path: "/etc/papermerge/public.key"
 
 global:
   app:
@@ -50,7 +51,6 @@ global:
     auth__oidc_access_token_url: "https://auth.k8s.trusel.net/realms/demo/protocol/openid-connect/token"
     auth__oidc_logout_url: "https://auth.k8s.trusel.net/realms/demo/protocol/openid-connect/logout"
     auth__oidc_redirect_url: "http://localhost:9000/oidc/callback"
-    public_key: "/etc/papermerge/public.key"
     home_url: "http://localhost:9000/"
     main__media_root: "/media"
     main__logging_cfg: "/etc/papermerge/logging.yaml"
