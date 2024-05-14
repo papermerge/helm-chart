@@ -48,16 +48,13 @@ app:
       enabled: true
       size: 10Gi
   main__media_root: "/media"
-
-global:
-  app:
-    auth__oidc_client_id: papermerge
-    auth__oidc_authorize_url: "https://auth.k8s.trusel.net/realms/demo/protocol/openid-connect/auth"
-    auth__oidc_access_token_url: "https://auth.k8s.trusel.net/realms/demo/protocol/openid-connect/token"
-    auth__oidc_logout_url: "https://auth.k8s.trusel.net/realms/demo/protocol/openid-connect/logout"
-    auth__oidc_redirect_url: "http://localhost:9000/oidc/callback"
-    home_url: "http://localhost:9000/"
-    main__logging_cfg: "/etc/papermerge/logging.yaml"
+  auth__oidc_client_id: papermerge
+  auth__oidc_authorize_url: "https://auth.k8s.trusel.net/realms/demo/protocol/openid-connect/auth"
+  auth__oidc_access_token_url: "https://auth.k8s.trusel.net/realms/demo/protocol/openid-connect/token"
+  auth__oidc_logout_url: "https://auth.k8s.trusel.net/realms/demo/protocol/openid-connect/logout"
+  auth__oidc_redirect_url: "http://localhost:9000/oidc/callback"
+  home_url: "http://localhost:9000/"
+  main__logging_cfg: "/etc/papermerge/logging.yaml"
   ingress:
     enabled: true
     host: paper.k8s.trusel.net

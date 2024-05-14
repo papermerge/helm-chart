@@ -1,4 +1,4 @@
-{{- if .Values.global.ingress.enabled -}}
+{{- if .Values.ingress.enabled -}}
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
@@ -9,10 +9,10 @@ metadata:
 spec:
   routes:
   - kind: Rule
-    match: Host(`{{ .Values.global.ingress.host }}`)
+    match: Host(`{{ .Values.ingress.host }}`)
     services:
     - name: {{ include "app.fullname" . }}
       port: 80
   tls:
-    secretName: {{ .Values.global.ingress.cert.secretName }}
+    secretName: {{ .Values.ingress.cert.secretName }}
 {{- end }}
