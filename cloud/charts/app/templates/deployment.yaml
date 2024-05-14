@@ -44,9 +44,9 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           command: ["/run.bash", "server"]
           volumeMounts:
-          {{- if .Values.global.storage.enabled }}
+          {{- if .Values.storage.local.enabled }}
             - name: {{ .Release.Name }}-volume
-              mountPath: {{ .Values.global.app.main__media_root }}
+              mountPath: {{ .Values.main__media_root }}
           {{- end }}
             - name: {{ .Release.Name }}-logging-vol
               mountPath: /etc/papermerge/logging.yaml
@@ -92,10 +92,10 @@ spec:
       {{- end }}
 
       volumes:
-      {{- if .Values.global.storage.enabled }}
+      {{- if .Values.storage.local.enabled }}
         - name: {{ .Release.Name }}-volume
           persistentVolumeClaim:
-            claimName: {{ .Release.Name }}-media-pvc
+            claimName: {{ include "app.fullname" . }}-pvc
       {{- end }}
         - name: {{ .Release.Name }}-logging-vol
           configMap:

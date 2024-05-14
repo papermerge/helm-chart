@@ -43,6 +43,11 @@ app:
     place public key here
     -----END PUBLIC KEY-----
   public_key_path: "/etc/papermerge/public.key"
+  storage:
+    local:
+      enabled: true
+      size: 10Gi
+  main__media_root: "/media"
 
 global:
   app:
@@ -52,22 +57,18 @@ global:
     auth__oidc_logout_url: "https://auth.k8s.trusel.net/realms/demo/protocol/openid-connect/logout"
     auth__oidc_redirect_url: "http://localhost:9000/oidc/callback"
     home_url: "http://localhost:9000/"
-    main__media_root: "/media"
     main__logging_cfg: "/etc/papermerge/logging.yaml"
   ingress:
     enabled: true
     host: paper.k8s.trusel.net
     cert:
       secretName: k8s-trusel-net-production-tls
-  storage:
-    enabled: true
   redis:
     enabled: false
     url: "redis://redis:6379/0"
   search:
     enabled: false
     url: "solr://solr-solrcloud-0:8983/paper-index"
-
 
 autoscaling:
   enabled: false
