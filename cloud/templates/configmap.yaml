@@ -14,5 +14,5 @@ data:
   PAPERMERGE__MAIN__LOGGING_CFG: {{ .Values.app.main__logging_cfg | quote }}
   PAPERMERGE__REDIS__URL: {{ .Values.app.redis__url | quote }}
   {{- if .Values.app.search.enabled }}
-  PAPERMERGE__SEARCH__URL: {{ .Values.search.url | quote }}
+  PAPERMERGE__SEARCH__URL: {{ .Values.app.search.url | quote }}
   {{- end }}
