@@ -55,6 +55,7 @@ app:
   auth__oidc_redirect_url: "http://localhost:9000/oidc/callback"
   home_url: "http://localhost:9000/"
   main__logging_cfg: "/etc/papermerge/logging.yaml"
+  uvicorn_workers: 2
   ingress:
     enabled: true
     host: paper.k8s.trusel.net

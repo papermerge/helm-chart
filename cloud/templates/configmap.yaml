@@ -13,6 +13,7 @@ data:
   PAPERMERGE__MAIN__MEDIA_ROOT: {{ .Values.app.main__media_root | quote }}
   PAPERMERGE__MAIN__LOGGING_CFG: {{ .Values.app.main__logging_cfg | quote }}
   PAPERMERGE__REDIS__URL: {{ .Values.app.redis__url | quote }}
+  UVICORN_WORKERS: {{ .Values.app.uvicorn_workers | quote }}
   {{- if .Values.app.search.enabled }}
   PAPERMERGE__SEARCH__URL: {{ .Values.app.search.url | quote }}
   {{- end }}
