@@ -12,6 +12,13 @@ s3worker:
   redis:
     enabled: true
     url: "redis://redis:6379/0"
+  resources:
+    requests:
+      cpu: "300m"
+      memory: "800Mi"
+    limits:
+      cpu: "300m"
+      memory: "800Mi"
 
 app:
   replicaCount: 2
@@ -42,6 +49,14 @@ app:
   search:
     enabled: false
     url: "solr://solr-solrcloud-0:8983/paper-index"
+  resources:
+    requests:
+      cpu: "300m"
+      memory: "800Mi"
+    limits:
+      cpu: "300m"
+      memory: "800Mi"
+
 
 global:
   storage:

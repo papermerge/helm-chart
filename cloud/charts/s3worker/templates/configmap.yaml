@@ -1,13 +1,12 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "s3worker.fullname" . }}-config
+  name: {{ include "s3worker.fullname" . }}
 data:
-  PAPERMERGE__MAIN__MEDIA_ROOT: {{ .Values.app.main__media_root | quote }}
-  PAPERMERGE__MAIN__LOGGING_CFG: {{ .Values.app.main__logging_cfg | quote }}
-  PAPERMERGE__REDIS__URL: {{ .Values.app.redis__url | quote }}
-  AWS_ACCESS_KEY_ID: {{ .Values.s3worker.aws_access_key_id }}
-  AWS_SECRET_ACCESS_KEY: {{ .Values.s3worker.aws_secret_access_key }}
-  BUCKET_NAME: {{ .Values.s3worker.bucket_name }}
-  OBJECT_PREFIX: {{ .Values.s3worker.object_prefix }}
-  REGION_NAME: {{ .Values.s3worker.region_name }}
+  PAPERMERGE__MAIN__MEDIA_ROOT: {{ .Values.media_root | quote }}
+  PAPERMERGE__MAIN__LOGGING_CFG: {{ .Values.logging_cfg | quote }}
+  PAPERMERGE__REDIS__URL: {{ .Values.redis_url | quote }}
+  PAPERMERGE__S3__BUCKET_NAME: {{ .Values.bucket_name }}
+  PAPERMERGE__S3__OBJECT_PREFIX: {{ .Values.object_prefix }}
+  PAPERMERGE__S3__REGION_NAME: {{ .Values.region_name }}
+  AWS_ACCESS_KEY_ID: {{ .Values.aws_access_key_id }}

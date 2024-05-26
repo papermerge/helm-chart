@@ -37,16 +37,18 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           command: ["/run.bash", "worker"]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - name: http
-              containerPort: {{ .Values.service.port }}
-              protocol: TCP
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           {{- with .Values.volumeMounts }}
           volumeMounts:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "s3worker.fullname" . }}
+            - secretRef:
+                name: {{ include "s3worker.fullname" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -60,13 +62,11 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       volumes:
-      {{- if .Values.storage.local.enabled }}
+      {{- if .Values.global.storage.local.enabled }}
         - name: {{ .Release.Name }}-volume
           persistentVolumeClaim:
-            claimName: {{ include "app.fullname" . }}-pvc
+            claimName: {{ .Release.Name }}-pvc
       {{- end }}
         - name: {{ .Release.Name }}-logging-vol
           configMap:
             name: {{ .Release.Name }}-logging-config
-
-
