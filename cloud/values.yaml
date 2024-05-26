@@ -3,10 +3,15 @@ worker:
   image:
     tag: "3.3-cloud-b3"
 
+s3worker:
+  replicaCount: 1
+  image:
+    tag: "3.3-cloud-b7"
+
 app:
   replicaCount: 2
   image:
-    tag: "3.3-cloud-b3"
+    tag: "3.3-cloud-b7"
   logging:
     version: 1
     disable_existing_loggers: false
