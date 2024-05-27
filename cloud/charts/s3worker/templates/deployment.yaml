@@ -45,9 +45,9 @@ spec:
           {{- end }}
           envFrom:
             - configMapRef:
-                name: {{ include "s3worker.fullname" . }}
+                name: {{ include "s3worker.fullname" . }}-config
             - secretRef:
-                name: {{ include "s3worker.fullname" . }}
+                name: {{ include "s3worker.fullname" . }}-secret
           imagePullPolicy: {{ .Values.image.pullPolicy }}
       {{- with .Values.nodeSelector }}
       nodeSelector:

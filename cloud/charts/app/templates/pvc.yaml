@@ -1,4 +1,4 @@
-{{- if .Values.storage.local.enabled -}}
+{{- if .Values.global.storage.local.enabled -}}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -9,5 +9,5 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: {{ .Values.storage.local.size }}
+      storage: {{ .Values.global.storage.local.size }}
 {{- end }}

@@ -34,9 +34,9 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           envFrom:
             - configMapRef:
-                name: {{ .Release.Name }}-config
+                name: {{ include "app.fullname" . }}-config
             - secretRef:
-                name: {{ .Release.Name }}-secret
+                name: {{ include "app.fullname" . }}-secret
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       containers:

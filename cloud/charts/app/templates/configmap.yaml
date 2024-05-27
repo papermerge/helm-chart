@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "app.fullname" . }}-config
+data:
+  PAPERMERGE__AUTH__OIDC_CLIENT_ID: {{ .Values.oidc_client_id | quote }}
+  PAPERMERGE__AUTH__OIDC_AUTHORIZE_URL: {{ .Values.oidc_authorize_url | quote }}
+  PAPERMERGE__AUTH__OIDC_ACCESS_TOKEN_URL: {{ .Values.oidc_access_token_url | quote }}
+  PAPERMERGE__AUTH__OIDC_LOGOUT_URL: {{ .Values.logout_url | quote }}
+  PAPERMERGE__AUTH__OIDC_REDIRECT_URL: {{ .Values.oidc_redirect_url | quote }}
+  PUBLIC_KEY: {{ .Values.public_key_path | quote }}
+  HOME_URL: {{ .Values.home_url | quote }}
+  PAPERMERGE__MAIN__MEDIA_ROOT: {{ .Values.media_root | quote }}
+  PAPERMERGE__MAIN__LOGGING_CFG: {{ .Values.logging_cfg | quote }}
+  PAPERMERGE__REDIS__URL: {{ .Values.redis_url | quote }}
+  UVICORN_WORKERS: {{ .Values.uvicorn_workers | quote }}
+  {{- if .Values.search.enabled }}
+  PAPERMERGE__SEARCH__URL: {{ .Values.search.url | quote }}
+  {{- end }}
