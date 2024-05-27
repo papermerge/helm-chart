@@ -60,9 +60,8 @@ app:
 
 global:
   storage:
-    local:
-      enabled: true
-      size: 10Gi
+    enabled: true
+    size: 10Gi
   logging:
     version: 1
     disable_existing_loggers: false
