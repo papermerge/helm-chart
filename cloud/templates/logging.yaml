@@ -4,6 +4,6 @@ metadata:
   name: {{ .Release.Name }}-logging-config
 data:
   logging.yaml: |
-    {{- with .Values.logging }}
+    {{- with .Values.global.logging }}
       {{- toYaml . | nindent 6 }}
     {{- end }}
