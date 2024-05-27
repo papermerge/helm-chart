@@ -5,7 +5,9 @@ metadata:
 data:
   PAPERMERGE__MAIN__MEDIA_ROOT: {{ .Values.media_root | quote }}
   PAPERMERGE__MAIN__LOGGING_CFG: {{ .Values.logging_cfg | quote }}
-  PAPERMERGE__REDIS__URL: {{ .Values.redis_url | quote }}
+  {{- if .Values.redis.enabled }}
+  PAPERMERGE__REDIS__URL: {{ .Values.redis.url | quote }}
+  {{- end }}
   PAPERMERGE__S3__BUCKET_NAME: {{ .Values.bucket_name }}
   PAPERMERGE__S3__OBJECT_PREFIX: {{ .Values.object_prefix }}
   PAPERMERGE__S3__REGION_NAME: {{ .Values.region_name }}
