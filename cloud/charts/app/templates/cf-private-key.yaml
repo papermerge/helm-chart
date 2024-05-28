@@ -1,0 +1,9 @@
+{{- if .Values.cf.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "app.fullname" . }}-cf-private-key
+data:
+  cf-private.key: |
+{{ .Values.cf.sign_url_private_key | indent 4 }}
+{{- end }}

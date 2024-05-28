@@ -1,0 +1,13 @@
+{{- if .Values.global.storage.enabled -}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Release.Name }}-pvc
+spec:
+  storageClassName: "pm-media"
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.global.storage.size }}
+{{- end }}

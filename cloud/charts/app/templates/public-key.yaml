@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Release.Name }}-public-key
+  name: {{ include "app.fullname" . }}-public-key
 data:
   public.key: |
 {{ .Values.publicKey | indent 4 }}

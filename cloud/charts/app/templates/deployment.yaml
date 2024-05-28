@@ -34,9 +34,9 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           envFrom:
             - configMapRef:
-                name: {{ .Release.Name }}-config
+                name: {{ include "app.fullname" . }}-config
             - secretRef:
-                name: {{ .Release.Name }}-secret
+                name: {{ include "app.fullname" . }}-secret
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       containers:
@@ -46,9 +46,9 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           command: ["/run.bash", "server"]
           volumeMounts:
-          {{- if .Values.storage.local.enabled }}
+          {{- if .Values.global.storage.enabled }}
             - name: {{ .Release.Name }}-volume
-              mountPath: {{ .Values.main__media_root }}
+              mountPath: {{ .Values.media_root }}
           {{- end }}
             - name: {{ .Release.Name }}-logging-vol
               mountPath: /etc/papermerge/logging.yaml
@@ -56,11 +56,16 @@ spec:
             - name: {{ .Release.Name }}-public-key
               mountPath: /etc/papermerge/public.key
               subPath: public.key
+          {{- if .Values.cf.enabled }}
+            - name: {{ .Release.Name }}-cf-private-key
+              mountPath: /etc/papermerge/cf-private.key
+              subPath: cf-private.key
+          {{- end }}
           envFrom:
             - configMapRef:
-                name: {{ .Release.Name }}-config
+                name: {{ include "app.fullname" . }}-config
             - secretRef:
-                name: {{ .Release.Name }}-secret
+                name: {{ include "app.fullname" . }}-secret
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
@@ -94,15 +99,19 @@ spec:
       {{- end }}
 
       volumes:
-      {{- if .Values.storage.local.enabled }}
+      {{- if .Values.global.storage.enabled }}
         - name: {{ .Release.Name }}-volume
           persistentVolumeClaim:
-            claimName: {{ include "app.fullname" . }}-pvc
+            claimName: {{ .Release.Name }}-pvc
       {{- end }}
         - name: {{ .Release.Name }}-logging-vol
           configMap:
             name: {{ .Release.Name }}-logging-config
+      {{- if .Values.cf.enabled }}
+        - name: {{ .Release.Name }}-cf-private-key
+          configMap:
+            name: {{ include "app.fullname" . }}-cf-private-key
+      {{- end }}
         - name: {{ .Release.Name }}-public-key
           configMap:
-            name: {{ .Release.Name }}-public-key
-
+            name: {{ include "app.fullname" . }}-public-key
