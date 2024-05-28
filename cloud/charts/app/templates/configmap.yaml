@@ -16,6 +16,12 @@ data:
   PAPERMERGE__REDIS__URL: {{ .Values.redis.url | quote }}
   {{- end }}
   UVICORN_WORKERS: {{ .Values.uvicorn_workers | quote }}
+  {{- if .Values.cf.enabled }}
+  PAPERMERGE__MAIN__IMAGE_PREVIEW_SOURCE: s3
+  PAPERMERGE__MAIN__CF_SIGN_URL_KEY_ID: {{ .Values.cf.sign_url_key_id }}
+  PAPERMERGE__MAIN__CF_DOMAIN: {{ .Values.cf.domain }}
+  PAPERMERGE__MAIN__CF_SIGN_URL_PRIVATE_KEY: {{ .Values.cf.private_key_path }}
+  {{- end  }}
   {{- if .Values.search.enabled }}
   PAPERMERGE__SEARCH__URL: {{ .Values.search.url | quote }}
   {{- end }}

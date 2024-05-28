@@ -6,12 +6,12 @@ worker:
 s3worker:
   replicaCount: 1
   image:
-    tag: "0.1.0"
+    tag: "0.2.1"
   media_root: "/media"
   logging_cfg: "/etc/papermerge/logging.yaml"
   redis:
     enabled: true
-    url: "redis://redis:6379/0"
+    url: "redis://my-redis-master.default:6379/0"
   resources:
     requests:
       cpu: "300m"

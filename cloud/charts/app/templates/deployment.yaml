@@ -56,6 +56,11 @@ spec:
             - name: {{ .Release.Name }}-public-key
               mountPath: /etc/papermerge/public.key
               subPath: public.key
+          {{- if .Values.cf.enabled }}
+            - name: {{ .Release.Name }}-cf-private-key
+              mountPath: /etc/papermerge/cf-private.key
+              subPath: cf-private.key
+          {{- end }}
           envFrom:
             - configMapRef:
                 name: {{ include "app.fullname" . }}-config
@@ -102,6 +107,11 @@ spec:
         - name: {{ .Release.Name }}-logging-vol
           configMap:
             name: {{ .Release.Name }}-logging-config
+      {{- if .Values.cf.enabled }}
+        - name: {{ .Release.Name }}-cf-private-key
+          configMap:
+            name: {{ include "app.fullname" . }}-cf-private-key
+      {{- end }}
         - name: {{ .Release.Name }}-public-key
           configMap:
             name: {{ include "app.fullname" . }}-public-key

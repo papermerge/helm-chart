@@ -74,3 +74,4 @@ spec:
         - name: {{ .Release.Name }}-logging-vol
           configMap:
             name: {{ .Release.Name }}-logging-config
+

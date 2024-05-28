@@ -11,4 +11,5 @@ data:
   PAPERMERGE__S3__BUCKET_NAME: {{ .Values.bucket_name }}
   PAPERMERGE__S3__OBJECT_PREFIX: {{ .Values.object_prefix }}
   PAPERMERGE__S3__REGION_NAME: {{ .Values.region_name }}
+  S3_WORKER_ARGS: {{ .Values.celery_worker_args }}
   AWS_ACCESS_KEY_ID: {{ .Values.aws_access_key_id }}
