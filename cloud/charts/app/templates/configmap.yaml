@@ -18,6 +18,7 @@ data:
   UVICORN_WORKERS: {{ .Values.uvicorn_workers | quote }}
   {{- if .Values.cf.enabled }}
   PAPERMERGE__MAIN__IMAGE_PREVIEW_SOURCE: s3
+  PAPERMERGE__S3__OBJECT_PREFIX: {{ .Values.object_prefix }}
   PAPERMERGE__MAIN__CF_SIGN_URL_KEY_ID: {{ .Values.cf.sign_url_key_id }}
   PAPERMERGE__MAIN__CF_DOMAIN: {{ .Values.cf.domain }}
   PAPERMERGE__MAIN__CF_SIGN_URL_PRIVATE_KEY: {{ .Values.cf.private_key_path }}
