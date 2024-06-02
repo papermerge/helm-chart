@@ -37,6 +37,9 @@ spec:
                 name: {{ include "app.fullname" . }}-config
             - secretRef:
                 name: {{ include "app.fullname" . }}-secret
+          volumeMounts:
+            - name: {{ include "app.fullname" . }}-ui-runtime-config
+              mountPath: /usr/share/html/ui/runtime/
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       containers:
@@ -56,6 +59,8 @@ spec:
             - name: {{ .Release.Name }}-public-key
               mountPath: /etc/papermerge/public.key
               subPath: public.key
+            - name: {{ include "app.fullname" . }}-ui-runtime-config
+              mountPath: /usr/share/html/ui/runtime/
           {{- if .Values.cf.enabled }}
             - name: {{ .Release.Name }}-cf-private-key
               mountPath: /etc/papermerge/cf-private.key
@@ -73,13 +78,13 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
+              path: /probe/
               port: http
             initialDelaySeconds: 30
             periodSeconds: 15
           readinessProbe:
             httpGet:
-              path: /
+              path: /probe/
               port: http
             initialDelaySeconds: 30
             periodSeconds: 15
@@ -115,3 +120,5 @@ spec:
         - name: {{ .Release.Name }}-public-key
           configMap:
             name: {{ include "app.fullname" . }}-public-key
+        - name: {{ include "app.fullname" . }}-ui-runtime-config
+          emptyDir: {}

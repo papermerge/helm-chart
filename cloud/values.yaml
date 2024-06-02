@@ -72,24 +72,15 @@ global:
 
     handlers:
       console:
-        level: DEBUG
         class: logging.StreamHandler
         formatter: verbose
 
     root:
-      level: DEBUG
+      level: INFO
       handlers: [console]
 
     loggers:
-      auth_server:
-        level: DEBUG
-        handlers: [console]
       papermerge.core:
-        level: DEBUG
+        level: INFO
         handlers: [console]
         propagate: no
-      papermerge.search:
-        level: DEBUG
-        handlers: [console]
-        propagate: no
-        format: verbose
