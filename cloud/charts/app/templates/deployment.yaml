@@ -42,6 +42,19 @@ spec:
               mountPath: /usr/share/html/ui/runtime/
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      {{- if .Values.search.enabled }}
+        - name: {{ include "app.fullname" . }}-index-schema-apply
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command: ["/run.bash", "index_schema_apply"]
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "app.fullname" . }}-config
+            - secretRef:
+                name: {{ include "app.fullname" . }}-secret
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
