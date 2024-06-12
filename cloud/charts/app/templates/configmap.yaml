@@ -12,6 +12,7 @@ data:
   HOME_URL: {{ .Values.home_url | quote }}
   PAPERMERGE__MAIN__MEDIA_ROOT: {{ .Values.media_root | quote }}
   PAPERMERGE__MAIN__LOGGING_CFG: {{ .Values.logging_cfg | quote }}
+  PAPERMERGE__MAIN__PREFIX: {{ .Values.prefix | quote }}
   {{- if .Values.redis.enabled }}
   PAPERMERGE__REDIS__URL: {{ .Values.redis.url | quote }}
   {{- end }}
