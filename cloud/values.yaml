@@ -20,6 +20,22 @@ s3worker:
       cpu: "300m"
       memory: "800Mi"
 
+i3worker:
+  replicaCount: 1
+  image:
+    tag: "0.1"
+  logging_cfg: "/etc/papermerge/logging.yaml"
+  redis:
+    enabled: true
+    url: "redis://my-redis-master.default:6379/0"
+  resources:
+    requests:
+      cpu: "300m"
+      memory: "800Mi"
+    limits:
+      cpu: "300m"
+      memory: "800Mi"
+
 app:
   replicaCount: 2
   image:

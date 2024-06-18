@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "s3worker.fullname" . }}
+  name: {{ include "i3worker.fullname" . }}
   labels:
-    {{- include "s3worker.labels" . | nindent 4 }}
+    {{- include "i3worker.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "s3worker.selectorLabels" . | nindent 6 }}
+      {{- include "i3worker.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,7 +18,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "s3worker.labels" . | nindent 8 }}
+        {{- include "i3worker.labels" . | nindent 8 }}
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -27,7 +27,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "s3worker.serviceAccountName" . }}
+      serviceAccountName: {{ include "i3worker.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -40,18 +40,19 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
-          {{- if .Values.global.storage.enabled }}
-            - name: {{ .Release.Name }}-volume
-              mountPath: {{ .Values.media_root }}
-          {{- end }}
-            - name: {{ .Release.Name }}-logging-vol
+           - name: {{ .Release.Name }}-logging-vol
               mountPath: /etc/papermerge/logging.yaml
               subPath: logging.yaml
           envFrom:
             - configMapRef:
-                name: {{ include "s3worker.fullname" . }}-config
+                name: {{ include "i3worker.fullname" . }}-config
             - secretRef:
-                name: {{ include "s3worker.fullname" . }}-secret
+                name: {{ include "i3worker.fullname" . }}-secret
+
+      volumes:
+        - name: {{ .Release.Name }}-logging-vol
+          configMap:
+            name: {{ .Release.Name }}-logging-config
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -64,12 +65,3 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      volumes:
-      {{- if .Values.global.storage.enabled }}
-        - name: {{ .Release.Name }}-volume
-          persistentVolumeClaim:
-            claimName: {{ .Release.Name }}-pvc
-      {{- end }}
-        - name: {{ .Release.Name }}-logging-vol
-          configMap:
-            name: {{ .Release.Name }}-logging-config
