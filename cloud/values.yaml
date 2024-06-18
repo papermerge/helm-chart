@@ -1,7 +1,18 @@
-worker:
+ocrworker:
   replicaCount: 2
   image:
-    tag: "3.3-cloud-b3"
+    tag: "0.1"
+  media_root: "/media"
+  logging_cfg: "/etc/papermerge/logging.yaml"
+  redis:
+    url: "redis://my-redis-master.default:6379/0"
+  resources:
+    requests:
+      cpu: "300m"
+      memory: "800Mi"
+    limits:
+      cpu: "300m"
+      memory: "800Mi"
 
 s3worker:
   replicaCount: 1
