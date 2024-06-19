@@ -40,10 +40,6 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
-          {{- if .Values.global.storage.enabled }}
-            - name: {{ .Release.Name }}-volume
-              mountPath: {{ .Values.media_root }}
-          {{- end }}
             - name: {{ .Release.Name }}-logging-vol
               mountPath: /etc/papermerge/logging.yaml
               subPath: logging.yaml
