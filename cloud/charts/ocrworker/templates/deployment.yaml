@@ -1,17 +1,16 @@
-{{- if .Values.enabled -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "worker.fullname" . }}
+  name: {{ include "ocrworker.fullname" . }}
   labels:
-    {{- include "worker.labels" . | nindent 4 }}
+    {{- include "ocrworker.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "worker.selectorLabels" . | nindent 6 }}
+      {{- include "ocrworker.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -19,7 +18,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "worker.labels" . | nindent 8 }}
+        {{- include "ocrworker.labels" . | nindent 8 }}
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -28,7 +27,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "worker.serviceAccountName" . }}
+      serviceAccountName: {{ include "ocrworker.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -37,42 +36,18 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           command: ["/run.bash", "worker"]
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
-          {{- if .Values.global.storage.enabled }}
-            - name: {{ .Release.Name }}-volume
-              mountPath: {{ .Values.global.app.main__media_root }}
-          {{- end }}
             - name: {{ .Release.Name }}-logging-vol
               mountPath: /etc/papermerge/logging.yaml
               subPath: logging.yaml
           envFrom:
             - configMapRef:
-                name: {{ .Release.Name }}-config
+                name: {{ include "ocrworker.fullname" . }}-config
             - secretRef:
-                name: {{ .Release.Name }}-secret
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - name: http
-              containerPort: {{ .Values.service.port }}
-              protocol: TCP
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-          {{- with .Values.volumeMounts }}
-          volumeMounts:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-      volumes:
-        - name: {{ .Release.Name }}-logging-vol
-          configMap:
-            name: {{ .Release.Name }}-logging-config
-      {{- if .Values.global.storage.enabled }}
-        - name: {{ .Release.Name }}-volume
-          persistentVolumeClaim:
-            claimName: {{ .Release.Name }}-media-pvc
-      {{- end }}
-      {{- with .Values.volumes }}
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+                name: {{ include "ocrworker.fullname" . }}-secret
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -85,4 +60,7 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-{{- end }}
+      volumes:
+        - name: {{ .Release.Name }}-logging-vol
+          configMap:
+            name: {{ .Release.Name }}-logging-config
