@@ -8,6 +8,6 @@ data:
   PAPERMERGE__MAIN__PREFIX: {{ .Values.prefix }}
   PAPERMERGE__REDIS__URL: {{ .Values.redis.url | quote }}
   PAPERMERGE__S3__BUCKET_NAME: {{ .Values.bucket_name }}
-  PAPERMERGE__S3__REGION_NAME: {{ .Values.region_name }}
   OCR_WORKER_ARGS: {{ .Values.celery_worker_args }}
   AWS_ACCESS_KEY_ID: {{ .Values.aws_access_key_id }}
+  AWS_REGION_NAME: {{ .Values.region_name }}
