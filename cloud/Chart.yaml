@@ -2,7 +2,7 @@ apiVersion: v2
 name: papermerge
 description: Papermerge helm chart for Kubernetes / standalone architecture
 type: application
-version: 0.4.0
+version: 0.4.1
 appVersion: "3.3-cloud-b21"
 
 maintainers:
