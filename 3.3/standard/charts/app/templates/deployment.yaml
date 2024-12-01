@@ -30,16 +30,13 @@ spec:
       initContainers:
         - name: {{ include "app.fullname" . }}-init
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          command: ["/run.bash", "init"]
+          command: ["/entrypoint.sh", "init"]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           envFrom:
             - configMapRef:
                 name: {{ include "app.fullname" . }}-config
             - secretRef:
                 name: {{ include "app.fullname" . }}-secret
-          volumeMounts:
-            - name: {{ include "app.fullname" . }}-ui-runtime-config
-              mountPath: /usr/share/html/ui/runtime/
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- if .Values.search.enabled }}
@@ -60,7 +57,7 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          command: ["/run.bash", "server"]
+          command: ["/entrypoint.sh", "server"]
           volumeMounts:
           {{- if .Values.global.storage.enabled }}
             - name: {{ .Release.Name }}-volume
@@ -69,30 +66,12 @@ spec:
             - name: {{ .Release.Name }}-logging-vol
               mountPath: /etc/papermerge/logging.yaml
               subPath: logging.yaml
-            - name: {{ include "app.fullname" . }}-ui-runtime-config
-              mountPath: /usr/share/html/ui/runtime/
           envFrom:
             - configMapRef:
                 name: {{ include "app.fullname" . }}-config
             - secretRef:
                 name: {{ include "app.fullname" . }}-secret
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - name: http
-              containerPort: 80
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /probe/
-              port: http
-            initialDelaySeconds: 30
-            periodSeconds: 15
-          readinessProbe:
-            httpGet:
-              path: /probe/
-              port: http
-            initialDelaySeconds: 30
-            periodSeconds: 15
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
@@ -117,5 +96,4 @@ spec:
         - name: {{ .Release.Name }}-logging-vol
           configMap:
             name: {{ .Release.Name }}-logging-config
-        - name: {{ include "app.fullname" . }}-ui-runtime-config
-          emptyDir: {}
+
