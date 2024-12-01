@@ -18,10 +18,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "app.labels" . | nindent 8 }}
-        {{- with .Values.podLabels }}
-        {{- toYaml . | nindent 8 }}
-        {{- end }}
+        {{- include "app.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -30,30 +27,74 @@ spec:
       serviceAccountName: {{ include "app.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: {{ include "app.fullname" . }}-init
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command: ["/run.bash", "init"]
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "app.fullname" . }}-config
+            - secretRef:
+                name: {{ include "app.fullname" . }}-secret
+          volumeMounts:
+            - name: {{ include "app.fullname" . }}-ui-runtime-config
+              mountPath: /usr/share/html/ui/runtime/
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- if .Values.search.enabled }}
+        - name: {{ include "app.fullname" . }}-index-schema-apply
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command: ["/run.bash", "index_schema_apply"]
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "app.fullname" . }}-config
+            - secretRef:
+                name: {{ include "app.fullname" . }}-secret
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command: ["/run.bash", "server"]
+          volumeMounts:
+          {{- if .Values.global.storage.enabled }}
+            - name: {{ .Release.Name }}-volume
+              mountPath: {{ .Values.media_root }}
+          {{- end }}
+            - name: {{ .Release.Name }}-logging-vol
+              mountPath: /etc/papermerge/logging.yaml
+              subPath: logging.yaml
+            - name: {{ include "app.fullname" . }}-ui-runtime-config
+              mountPath: /usr/share/html/ui/runtime/
+          envFrom:
+            - configMapRef:
+                name: {{ include "app.fullname" . }}-config
+            - secretRef:
+                name: {{ include "app.fullname" . }}-secret
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: {{ .Values.service.port }}
+              containerPort: 80
               protocol: TCP
           livenessProbe:
-            {{- toYaml .Values.livenessProbe | nindent 12 }}
+            httpGet:
+              path: /probe/
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 15
           readinessProbe:
-            {{- toYaml .Values.readinessProbe | nindent 12 }}
+            httpGet:
+              path: /probe/
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 15
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          {{- with .Values.volumeMounts }}
-          volumeMounts:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-      {{- with .Values.volumes }}
-      volumes:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -66,3 +107,15 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+
+      volumes:
+      {{- if .Values.global.storage.enabled }}
+        - name: {{ .Release.Name }}-volume
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-pvc
+      {{- end }}
+        - name: {{ .Release.Name }}-logging-vol
+          configMap:
+            name: {{ .Release.Name }}-logging-config
+        - name: {{ include "app.fullname" . }}-ui-runtime-config
+          emptyDir: {}
