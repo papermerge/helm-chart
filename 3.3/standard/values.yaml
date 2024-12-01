@@ -1,0 +1,106 @@
+ocrworker:
+  enabled: false
+  replicaCount: 2
+  image:
+    tag: "0.1"
+  media_root: "/media"
+  logging_cfg: "/etc/papermerge/logging.yaml"
+  redis:
+    url: "redis://my-redis-master.default:6379/0"
+  resources:
+    requests:
+      cpu: "300m"
+      memory: "800Mi"
+    limits:
+      cpu: "300m"
+      memory: "800Mi"
+
+s3worker:
+  enabled: false
+  replicaCount: 1
+  image:
+    tag: "0.2.1"
+  media_root: "/media"
+  logging_cfg: "/etc/papermerge/logging.yaml"
+  redis:
+    enabled: true
+    url: "redis://my-redis-master.default:6379/0"
+  resources:
+    requests:
+      cpu: "300m"
+      memory: "800Mi"
+    limits:
+      cpu: "300m"
+      memory: "800Mi"
+
+i3worker:
+  enabled: false
+  replicaCount: 1
+  image:
+    tag: "0.1"
+  logging_cfg: "/etc/papermerge/logging.yaml"
+  redis:
+    enabled: true
+    url: "redis://my-redis-master.default:6379/0"
+  resources:
+    requests:
+      cpu: "300m"
+      memory: "800Mi"
+    limits:
+      cpu: "300m"
+      memory: "800Mi"
+
+app:
+  replicaCount: 2
+  image:
+    tag: "3.3-cloud-b7"
+  media_root: "/media"
+  logging_cfg: "/etc/papermerge/logging.yaml"
+  home_url: "http://localhost:9000/"
+  uvicorn_workers: 2
+  ingress:
+    enabled: true
+    host: paper.k8s.trusel.net
+    cert:
+      secretName: k8s-trusel-net-production-tls
+  redis:
+    enabled: true
+    url: "redis://redis:6379/0"
+  search:
+    enabled: false
+    url: "solr://solr-solrcloud-0:8983/paper-index"
+  resources:
+    requests:
+      cpu: "300m"
+      memory: "800Mi"
+    limits:
+      cpu: "300m"
+      memory: "800Mi"
+
+
+global:
+  storage:
+    enabled: true
+    size: 10Gi
+  logging:
+    version: 1
+    disable_existing_loggers: false
+
+    formatters:
+      verbose:
+        format: '%(levelname)s:%(pathname)s:%(lineno)d:%(message)s'
+
+    handlers:
+      console:
+        class: logging.StreamHandler
+        formatter: verbose
+
+    root:
+      level: INFO
+      handlers: [console]
+
+    loggers:
+      papermerge.core:
+        level: INFO
+        handlers: [console]
+        propagate: no
