@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "app.fullname" . }}-config
+data:
+  PAPERMERGE__MAIN__MEDIA_ROOT: {{ .Values.media_root | quote }}
+  PAPERMERGE__MAIN__LOGGING_CFG: {{ .Values.logging_cfg | quote }}
+  PAPERMERGE__MAIN__PREFIX: {{ .Values.prefix | quote }}
+  PAPERMERGE__MAIN__API_PREFIX: ''
+  PAPERMERGE__AUTH__USERNAME: {{ .Values.username | quote }}
+  {{- if .Values.redis.enabled }}
+  PAPERMERGE__REDIS__URL: {{ .Values.redis.url | quote }}
+  {{- end }}
+  UVICORN_WORKERS: {{ .Values.uvicorn_workers | quote }}
+  {{- if .Values.search.enabled }}
+  PAPERMERGE__SEARCH__URL: {{ .Values.search.url | quote }}
+  {{- end }}
