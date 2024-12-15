@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "ocrworker.fullname" . }}-config
+data:
+  PAPERMERGE__MAIN__MEDIA_ROOT: {{ .Values.media_root | quote }}
+  PAPERMERGE__MAIN__LOGGING_CFG: {{ .Values.logging_cfg | quote }}
+  PAPERMERGE__MAIN__PREFIX: {{ .Values.prefix }}
+  PAPERMERGE__REDIS__URL: {{ .Values.redis.url | quote }}
+  PAPERMERGE__S3__BUCKET_NAME: {{ .Values.bucket_name }}
+  OCR_WORKER_ARGS: {{ .Values.celery_worker_args }}
+  AWS_ACCESS_KEY_ID: {{ .Values.aws_access_key_id }}
+  AWS_REGION_NAME: {{ .Values.region_name }}
